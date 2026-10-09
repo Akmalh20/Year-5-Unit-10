@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year 5 Chinese Unit 10 Interactive Learning</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts for Friendly Typography & Chinese Character Legibility -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Ma+Shan+Zheng&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0fdf4 100%);
+            min-height: 100vh;
+        }
+
+        .display-font {
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
+
+        .cn-text {
+            font-family: 'Ma Shan Zheng', cursive, 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Glassmorphism utility */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 40px -15px rgba(14, 165, 233, 0.12);
+        }
+
+        /* Floating effect animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-800 antialiased selection:bg-sky-200 selection:text-sky-900">
+
+    <!-- Top Navigation / Header -->
+    <header class="w-full bg-white/80 backdrop-blur-md border-b border-sky-100 sticky top-0 z-30 px-4 py-3 shadow-sm">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            
+            <!-- App Logo / Title -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sky-500 to-blue-600 flex items-center justify-center text-white shadow-md shadow-sky-300/50">
+                    <i class="fa-solid fa-book-open text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="display-font text-lg sm:text-xl font-bold text-slate-800 tracking-wide leading-tight">
+                        Bahasa Cina Tahun 5
+                    </h1>
+                    <p class="text-xs font-semibold text-sky-600 flex items-center gap-1">
+                        <span>Unit 10 Vocabulary Notes</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Narrator Status & Indicator -->
+            <div class="flex items-center space-x-2 bg-sky-50 px-3 py-1.5 rounded-full border border-sky-200/80 shadow-inner">
+                <div class="relative flex h-3 w-3">
+                    <span id="audioPulseRing" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75 hidden"></span>
+                    <span id="audioStatusDot" class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                </div>
+                <span id="narratorStatusText" class="text-xs font-bold text-slate-600 hidden sm:inline">
+                    Teacher Lin Ready
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Interactive Container -->
+    <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 pb-28 flex flex-col justify-center">
+        
+        <!-- Slide Stage Area -->
+        <div id="slideStage" class="w-full">
+            
+            <!-- Step 0: Welcome Screen -->
+            <div id="welcomeView" class="glass-card rounded-3xl p-6 sm:p-10 text-center relative overflow-hidden transition-all duration-300">
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-sky-200 rounded-full blur-2xl opacity-50"></div>
+                <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-200 rounded-full blur-2xl opacity-50"></div>
+
+                <div class="relative z-10 flex flex-col items-center">
+                    <!-- Teacher Avatar -->
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-sky-400 to-blue-600 p-1 shadow-xl mb-4 animate-float">
+                        <div class="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
+                            <i class="fa-solid fa-user-tie text-4xl text-sky-600"></i>
+                        </div>
+                    </div>
+
+                    <span class="px-3.5 py-1 bg-amber-100 text-amber-800 font-bold text-xs rounded-full uppercase tracking-wider mb-3">
+                        Year 5 Unit 10 Lesson
+                    </span>
+                    
+                    <h2 class="display-font text-2xl sm:text-3xl font-extrabold text-slate-800 mb-2">
+                        Welcome to Chinese Unit 10!
+                    </h2>
+                    
+                    <p class="text-slate-600 text-sm sm:text-base max-w-lg mb-6 leading-relaxed">
+                        Meet <strong class="text-sky-700">Teacher Lin</strong>! In this lesson, you will learn <strong>5 essential new words</strong> with Pinyin, meanings, stroke counts, and sample sentences.
+                    </p>
+
+                    <!-- Word Badges Preview -->
+                    <div class="flex flex-wrap justify-center gap-2 max-w-md mb-8">
+                        <span class="px-3 py-1.5 bg-sky-50 text-sky-700 border border-sky-200 rounded-xl text-sm font-bold flex items-center gap-1.5">
+                            <i class="fa-solid fa-tent text-sky-500"></i> 露营 (Lù yíng)
+                        </span>
+                        <span class="px-3 py-1.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-xl text-sm font-bold flex items-center gap-1.5">
+                            <i class="fa-solid fa-palette text-indigo-500"></i> 写生 (Xiě shēng)
+                        </span>
+                        <span class="px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl text-sm font-bold flex items-center gap-1.5">
+                            <i class="fa-solid fa-seedling text-emerald-500"></i> 种花 (Zhòng huā)
+                        </span>
+                        <span class="px-3 py-1.5 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl text-sm font-bold flex items-center gap-1.5">
+                            <i class="fa-solid fa-book-reader text-amber-500"></i> 阅读 (Yuè dú)
+                        </span>
+                        <span class="px-3 py-1.5 bg-rose-50 text-rose-700 border border-rose-200 rounded-xl text-sm font-bold flex items-center gap-1.5">
+                            <i class="fa-solid fa-chess text-rose-500"></i> 下棋 (Xià qí)
+                        </span>
+                    </div>
+
+                    <!-- Instruction Note -->
+                    <div class="p-3.5 bg-sky-50/80 rounded-2xl border border-sky-200/60 max-w-md text-xs text-sky-900 font-semibold mb-6 flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-circle-info text-sky-600 text-base shrink-0"></i>
+                        <span>Click <strong>"Listen to Narrator"</strong> on any card to hear standard male pronunciation!</span>
+                    </div>
+
+                    <button onclick="nextStep()" class="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white font-bold text-base shadow-lg shadow-sky-300/50 transition active:scale-95 flex items-center space-x-2">
+                        <span>Start Learning Lesson</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic Slide Content Container for Cards & Summaries -->
+            <div id="dynamicSlideCard" class="hidden glass-card rounded-3xl p-5 sm:p-8 transition-all duration-300">
+                <!-- Content generated via JavaScript -->
+            </div>
+
+            <!-- Step 7: Wordwall Quiz Launcher View -->
+            <div id="wordwallQuizView" class="hidden glass-card rounded-3xl p-6 sm:p-10 text-center relative overflow-hidden">
+                <div class="absolute -right-12 -top-12 w-44 h-44 bg-indigo-200 rounded-full blur-2xl opacity-50"></div>
+                <div class="absolute -left-12 -bottom-12 w-44 h-44 bg-pink-200 rounded-full blur-2xl opacity-50"></div>
+
+                <div class="relative z-10 flex flex-col items-center max-w-lg mx-auto">
+                    <!-- Quiz Trophy / Game Icon -->
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex items-center justify-center text-4xl shadow-xl shadow-indigo-300/50 mb-5 animate-float">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+
+                    <span class="px-3.5 py-1 bg-indigo-100 text-indigo-800 font-bold text-xs rounded-full uppercase tracking-wider mb-3">
+                        Unit 10 Interactive Quiz
+                    </span>
+
+                    <h2 class="display-font text-2xl sm:text-3xl font-extrabold text-slate-800 mb-3">
+                        Ready for the Wordwall Quiz?
+                    </h2>
+
+                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
+                        Great job studying all 5 vocabulary words! Click the button below to open the official Wordwall interactive quiz and test your skills.
+                    </p>
+
+                    <!-- Direct Hyperlink Button to Wordwall -->
+                    <a href="https://wordwall.net/play/120934/189/712?wwmethod=link" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-700 hover:to-pink-700 text-white font-extrabold text-base sm:text-lg shadow-xl shadow-indigo-300/50 transition duration-200 active:scale-95 flex items-center justify-center space-x-3 mb-4">
+                        <i class="fa-solid fa-rocket text-xl"></i>
+                        <span>Start Wordwall Quiz Now</span>
+                        <i class="fa-solid fa-up-right-from-square text-sm"></i>
+                    </a>
+
+                    <!-- Re-review / Restart Lesson option -->
+                    <button onclick="currentStep = 0; renderCurrentStep();" 
+                            class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition flex items-center space-x-2 active:scale-95">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span>Restart Lesson</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Sticky Bottom Floating Navigation Bar -->
+    <div id="navigationBar" class="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-sky-100 px-4 py-3 shadow-lg">
+        <div class="max-w-4xl mx-auto flex flex-col space-y-2">
+            
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div id="progressBar" class="bg-gradient-to-r from-sky-400 to-indigo-600 h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <!-- Buttons & Step Indicators -->
+            <div class="flex items-center justify-between">
+                
+                <!-- Back Button -->
+                <button id="prevBtn" onclick="prevStep()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition flex items-center space-x-1.5 active:scale-95 disabled:opacity-40 disabled:pointer-events-none">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span class="hidden sm:inline">Back</span>
+                </button>
+
+                <!-- Step Counter Indicator -->
+                <div class="text-center">
+                    <span id="stepBadge" class="display-font text-xs font-bold text-sky-800 bg-sky-100 px-3 py-1 rounded-full border border-sky-200">
+                        Welcome Page
+                    </span>
+                </div>
+
+                <!-- Next Button -->
+                <button id="nextBtn" onclick="nextStep()" class="px-5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs sm:text-sm shadow-md shadow-sky-300/50 transition flex items-center space-x-1.5 active:scale-95">
+                    <span id="nextBtnText">Next Step</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* Vocabulary Dataset for Year 5 Unit 10 */
+        const vocabData = [
+            {
+                id: 1,
+                word: "露营",
+                pinyin: "Lù yíng",
+                meaning: "Camping / Perkhemahan",
+                strokeCount: "32 Strokes (露 21 + 营 11)",
+                definition: "Outdoor activity where people sleep in tents in nature.",
+                icon: "fa-tent",
+                badgeBg: "bg-sky-100 text-sky-800 border-sky-200",
+                colorGradient: "from-sky-400 to-blue-600",
+                bgLight: "bg-sky-50/80",
+                borderColor: "border-sky-200",
+                sentenceCn: "周末，爸爸带我们去国家公园露营。",
+                sentencePy: "Zhōumò, bàba dài wǒmen qù guójiā gōngyuán lùyíng.",
+                sentenceEn: "On the weekend, Dad took us camping in the national park.",
+                narrationText: "Word 1: 露营, Lù yíng. Meaning: Camping or Perkhemahan. Example: 周末，爸爸带我们去国家公园露营."
+            },
+            {
+                id: 2,
+                word: "写生",
+                pinyin: "Xiě shēng",
+                meaning: "Outdoor Sketching / Melukis Alam",
+                strokeCount: "10 Strokes (写 5 + 生 5)",
+                definition: "Drawing or painting objects or scenery directly from real life.",
+                icon: "fa-palette",
+                badgeBg: "bg-indigo-100 text-indigo-800 border-indigo-200",
+                colorGradient: "from-indigo-400 to-purple-600",
+                bgLight: "bg-indigo-50/80",
+                borderColor: "border-indigo-200",
+                sentenceCn: "美术老师带同学们到湖边写生。",
+                sentencePy: "Měishù lǎoshī dài tóngxuémen dào húbiān xiěshēng.",
+                sentenceEn: "The art teacher took the students to sketch by the lake.",
+                narrationText: "Word 2: 写生, Xiě shēng. Meaning: Outdoor Sketching. Example: 美术老师带同学们到湖边写生."
+            },
+            {
+                id: 3,
+                word: "种花",
+                pinyin: "Zhòng huā",
+                meaning: "Planting Flowers / Menanam Bunga",
+                strokeCount: "16 Strokes (种 9 + 花 7)",
+                definition: "Gardening activity of planting and nurturing flowers.",
+                icon: "fa-seedling",
+                badgeBg: "bg-emerald-100 text-emerald-800 border-emerald-200",
+                colorGradient: "from-emerald-400 to-teal-600",
+                bgLight: "bg-emerald-50/80",
+                borderColor: "border-emerald-200",
+                sentenceCn: "奶奶最喜欢在花园里种花。",
+                sentencePy: "Nǎinai zuì xǐhuān zài huāyuán lǐ zhònghuā.",
+                sentenceEn: "Grandma loves planting flowers in the garden the most.",
+                narrationText: "Word 3: 种花, Zhòng huā. Meaning: Planting Flowers. Example: 奶奶最喜欢在花园里种花."
+            },
+            {
+                id: 4,
+                word: "阅读",
+                pinyin: "Yuè dú",
+                meaning: "Reading / Membaca",
+                strokeCount: "20 Strokes (阅 10 + 读 10)",
+                definition: "The act of reading books or written materials to gain knowledge.",
+                icon: "fa-book-reader",
+                badgeBg: "bg-amber-100 text-amber-800 border-amber-200",
+                colorGradient: "from-amber-400 to-orange-500",
+                bgLight: "bg-amber-50/80",
+                borderColor: "border-amber-200",
+                sentenceCn: "阅读能够开阔我们的视野，增加知识。",
+                sentencePy: "Yuèdú nénggòu kāikuò wǒmen de shìyě, zēngjiā zhīshí.",
+                sentenceEn: "Reading can broaden our horizons and increase knowledge.",
+                narrationText: "Word 4: 阅读, Yuè dú. Meaning: Reading. Example: 阅读能够开阔我们的视野，增加知识."
+            },
+            {
+                id: 5,
+                word: "下棋",
+                pinyin: "Xià qí",
+                meaning: "Playing Chess / Bermain Catur",
+                strokeCount: "15 Strokes (下 3 + 棋 12)",
+                definition: "Playing board games such as Xiangqi (Chinese chess) or Western chess.",
+                icon: "fa-chess",
+                badgeBg: "bg-rose-100 text-rose-800 border-rose-200",
+                colorGradient: "from-rose-400 to-pink-600",
+                bgLight: "bg-rose-50/80",
+                borderColor: "border-rose-200",
+                sentenceCn: "爷爷和老邻居在凉亭里下棋。",
+                sentencePy: "Yéye hé lǎo línjū zài liángtíng lǐ xiàqí.",
+                sentenceEn: "Grandpa and his old neighbor are playing chess in the pavilion.",
+                narrationText: "Word 5: 下棋, Xià qí. Meaning: Playing Chess. Example: 爷爷和老邻居在凉亭里下棋."
+            }
+        ];
+
+        // App Navigation State
+        let currentStep = 0; // 0 = Welcome, 1..5 = Words, 6 = Notes Summary, 7 = Wordwall Quiz
+        let currentAudio = null;
+        let fetchAbortController = null;
+        let cachedVoices = [];
+
+        // Pre-load Web Speech API voices early for instant response on click
+        function loadVoices() {
+            if ('speechSynthesis' in window) {
+                cachedVoices = window.speechSynthesis.getVoices();
+            }
+        }
+        if ('speechSynthesis' in window) {
+            loadVoices();
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = loadVoices;
+            }
+        }
+
+        // Gemini API Configuration for Male Narrator Voice
+        const GEMINI_API_KEY = ""; // Injected automatically at runtime
+        const TTS_MODEL = "gemini-2.5-flash-preview-tts";
+
+        /**
+         * Safely Stop any ongoing speech or network requests
+         */
+        function stopAudio() {
+            if (fetchAbortController) {
+                fetchAbortController.abort();
+                fetchAbortController = null;
+            }
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            setAudioUIState('idle');
+        }
+
+        /**
+         * Update Navigation UI & Router
+         */
+        function updateProgress() {
+            const totalSteps = 7;
+            const progressPercent = (currentStep / totalSteps) * 100;
+            
+            document.getElementById('progressBar').style.width = `${progressPercent}%`;
+
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const nextBtnText = document.getElementById('nextBtnText');
+            const stepBadge = document.getElementById('stepBadge');
+
+            prevBtn.disabled = (currentStep === 0);
+
+            if (currentStep === 0) {
+                stepBadge.innerText = "Welcome";
+                nextBtnText.innerText = "Start Lesson";
+            } else if (currentStep >= 1 && currentStep <= 5) {
+                stepBadge.innerText = `Word ${currentStep} of 5`;
+                nextBtnText.innerText = currentStep === 5 ? "Summary Notes ➔" : "Next Word ➔";
+            } else if (currentStep === 6) {
+                stepBadge.innerText = "Summary Recap";
+                nextBtnText.innerText = "Wordwall Quiz ➔";
+            } else if (currentStep === 7) {
+                stepBadge.innerText = "Wordwall Quiz";
+                nextBtnText.innerText = "Completed 🎉";
+            }
+        }
+
+        /**
+         * Step Router Engine
+         */
+        function renderCurrentStep() {
+            stopAudio(); // Ensure previous sound immediately stops on page turn
+            updateProgress();
+
+            const welcomeView = document.getElementById('welcomeView');
+            const dynamicSlideCard = document.getElementById('dynamicSlideCard');
+            const wordwallQuizView = document.getElementById('wordwallQuizView');
+
+            if (currentStep === 0) {
+                welcomeView.classList.remove('hidden');
+                dynamicSlideCard.classList.add('hidden');
+                wordwallQuizView.classList.add('hidden');
+            } else if (currentStep >= 1 && currentStep <= 5) {
+                welcomeView.classList.add('hidden');
+                dynamicSlideCard.classList.remove('hidden');
+                wordwallQuizView.classList.add('hidden');
+
+                const data = vocabData[currentStep - 1];
+                dynamicSlideCard.innerHTML = generateFlashcardHTML(data);
+            } else if (currentStep === 6) {
+                welcomeView.classList.add('hidden');
+                dynamicSlideCard.classList.remove('hidden');
+                wordwallQuizView.classList.add('hidden');
+
+                dynamicSlideCard.innerHTML = generateSummaryHTML();
+            } else if (currentStep === 7) {
+                welcomeView.classList.add('hidden');
+                dynamicSlideCard.classList.add('hidden');
+                wordwallQuizView.classList.remove('hidden');
+            }
+        }
+
+        /**
+         * Generate HTML for Word Flashcards
+         */
+        function generateFlashcardHTML(data) {
+            return `
+                <div class="flex flex-col h-full justify-between animate-fadeIn">
+                    <!-- Flashcard Header with Listen Button -->
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${data.badgeBg} border">
+                            Word ${data.id} of 5
+                        </span>
+                        
+                        <button onclick='speakText(${JSON.stringify(data.narrationText)})' 
+                                class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white font-bold text-xs shadow-md shadow-sky-300/50 transition active:scale-95">
+                            <i class="fa-solid fa-volume-high text-sm"></i>
+                            <span>Listen to Narrator</span>
+                        </button>
+                    </div>
+
+                    <!-- Character & Details Presentation -->
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center my-auto">
+                        <!-- Left Main Character Box -->
+                        <div class="md:col-span-5 flex flex-col items-center justify-center p-6 rounded-2xl ${data.bgLight} border ${data.borderColor} text-center shadow-inner">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr ${data.colorGradient} text-white flex items-center justify-center text-3xl shadow-lg mb-3">
+                                <i class="fa-solid ${data.icon}"></i>
+                            </div>
+                            <h2 class="cn-text text-6xl font-black text-slate-800 tracking-wider mb-1">
+                                ${data.word}
+                            </h2>
+                            <p class="text-2xl font-bold text-sky-700 tracking-wide font-sans">
+                                ${data.pinyin}
+                            </p>
+                        </div>
+
+                        <!-- Right Detailed Explanation Box -->
+                        <div class="md:col-span-7 flex flex-col justify-center space-y-4">
+                            <div>
+                                <h3 class="display-font text-2xl font-extrabold text-slate-800">
+                                    ${data.meaning}
+                                </h3>
+                                <p class="text-xs font-semibold text-slate-500 mt-1 flex items-center gap-1">
+                                    <i class="fa-solid fa-pen-nib text-amber-500"></i> ${data.strokeCount}
+                                </p>
+                                <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+                                    ${data.definition}
+                                </p>
+                            </div>
+
+                            <!-- Sample Sentence Box -->
+                            <div class="bg-white/90 p-4 rounded-2xl border border-slate-200/80 shadow-sm space-y-1.5">
+                                <p class="text-xs font-bold text-sky-800 uppercase tracking-wide flex items-center">
+                                    <i class="fa-solid fa-comment-dots text-sky-500 mr-1.5"></i> Example Sentence:
+                                </p>
+                                <p class="cn-text text-xl font-bold text-slate-800">
+                                    ${data.sentenceCn}
+                                </p>
+                                <p class="text-xs font-semibold text-sky-700">
+                                    ${data.sentencePy}
+                                </p>
+                                <p class="text-xs text-slate-600 italic">
+                                    "${data.sentenceEn}"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Script Subtitle Line -->
+                    <div class="mt-4 bg-sky-50/90 rounded-xl px-3.5 py-2.5 border border-sky-100 flex items-center justify-between text-xs text-sky-900 font-medium">
+                        <div class="flex items-center space-x-2 truncate mr-2">
+                            <i class="fa-solid fa-user-tie text-sky-600 shrink-0 text-sm"></i>
+                            <span class="truncate"><strong>Script:</strong> ${data.narrationText}</span>
+                        </div>
+                        <button onclick='speakText(${JSON.stringify(data.narrationText)})' class="text-sky-600 hover:text-sky-800 font-bold shrink-0 flex items-center gap-1">
+                            Play <i class="fa-solid fa-play text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Generate Summary Notes HTML
+         */
+        function generateSummaryHTML() {
+            const listHTML = vocabData.map(v => `
+                <div class="bg-white p-3.5 rounded-2xl border border-sky-100 shadow-sm hover:shadow-md transition flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr ${v.colorGradient} text-white flex items-center justify-center font-bold text-sm shadow-sm">
+                            <i class="fa-solid ${v.icon}"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-baseline space-x-2">
+                                <span class="cn-text text-2xl font-black text-slate-800">${v.word}</span>
+                                <span class="text-xs font-bold text-sky-600">${v.pinyin}</span>
+                            </div>
+                            <p class="text-xs text-slate-500 font-medium">${v.meaning}</p>
+                        </div>
+                    </div>
+                    <button onclick='speakText(${JSON.stringify(v.word + ", " + v.pinyin + ". Meaning: " + v.meaning)})' 
+                            class="px-3 py-1.5 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-600 font-bold text-xs flex items-center space-x-1.5 transition active:scale-95">
+                        <i class="fa-solid fa-volume-high"></i>
+                        <span>Listen</span>
+                    </button>
+                </div>
+            `).join('');
+
+            return `
+                <div class="flex flex-col h-full justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h2 class="display-font text-xl sm:text-2xl font-extrabold text-slate-800">
+                                Unit 10 Vocabulary Summary Notes
+                            </h2>
+                            <button onclick='speakText("Summary of Unit 10 words: 1. 露营, Lù yíng, Camping. 2. 写生, Xiě shēng, Sketching. 3. 种花, Zhòng huā, Planting flowers. 4. 阅读, Yuè dú, Reading. 5. 下棋, Xià qí, Playing chess.")' 
+                                    class="px-3.5 py-1.5 bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs rounded-full shadow-md flex items-center space-x-1.5 transition active:scale-95">
+                                <i class="fa-solid fa-volume-high"></i>
+                                <span>Listen All Words</span>
+                            </button>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+                            Review all 5 vocabulary words. Click <strong>"Listen"</strong> next to any word to hear Teacher Lin!
+                        </p>
+
+                        <!-- List of 5 Words -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                            ${listHTML}
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-indigo-50 border border-indigo-100 rounded-2xl text-center">
+                        <p class="text-xs text-indigo-900 font-semibold">
+                            <i class="fa-solid fa-circle-check text-indigo-500 mr-1"></i> Excellent job! Click <strong>"Wordwall Quiz ➔"</strong> below to start your quiz!
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Helper: Convert Base64 to Array Buffer
+         */
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        /**
+         * Helper: Encode raw PCM16 samples to WAV Blob
+         */
+        function pcmToWav(pcm16Data, sampleRate = 24000) {
+            const numChannels = 1;
+            const bitsPerSample = 16;
+            const byteRate = sampleRate * numChannels * (bitsPerSample / 8);
+            const blockAlign = numChannels * (bitsPerSample / 8);
+            const dataSize = pcm16Data.length * 2;
+            const buffer = new ArrayBuffer(44 + dataSize);
+            const view = new DataView(buffer);
+
+            const writeString = (v, offset, str) => {
+                for (let i = 0; i < str.length; i++) v.setUint8(offset + i, str.charCodeAt(i));
+            };
+
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + dataSize, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true); // Raw PCM
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, byteRate, true);
+            view.setUint16(32, blockAlign, true);
+            view.setUint16(34, bitsPerSample, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, dataSize, true);
+
+            let offset = 44;
+            for (let i = 0; i < pcm16Data.length; i++, offset += 2) {
+                view.setInt16(offset, pcm16Data[i], true);
+            }
+
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        /**
+         * High Precision Speech Generator using Gemini TTS API (with WebSpeech Fallback)
+         */
+        async function speakText(text) {
+            stopAudio();
+            setAudioUIState('loading');
+
+            fetchAbortController = new AbortController();
+
+            // Swift, energetic male narrator instruction
+            const promptText = `Speak swiftly, clearly, and energetically with a fluent male voice in Chinese and English: ${text}`;
+
+            try {
+                const payload = {
+                    contents: [{
+                        parts: [{ text: promptText }]
+                    }],
+                    generationConfig: {
+                        responseModalities: ["AUDIO"],
+                        speechConfig: {
+                            voiceConfig: {
+                                prebuiltVoiceConfig: { voiceName: "Puck" } // Brisk male voice
+                            }
+                        }
+                    }
+                };
+
+                const apiKey = typeof GEMINI_API_KEY !== 'undefined' ? GEMINI_API_KEY : "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    signal: fetchAbortController.signal
+                });
+
+                if (!response.ok) throw new Error("API response error");
+
+                const result = await response.json();
+                const part = result?.candidates?.[0]?.content?.parts?.[0];
+                const audioData = part?.inlineData?.data;
+                const mimeType = part?.inlineData?.mimeType || "audio/L16;rate=24000";
+
+                if (audioData) {
+                    const sampleRateMatch = mimeType.match(/rate=(\d+)/);
+                    const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 24000;
+
+                    const arrayBuf = base64ToArrayBuffer(audioData);
+                    const pcm16 = new Int16Array(arrayBuf);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    const audioUrl = URL.createObjectURL(wavBlob);
+
+                    currentAudio = new Audio(audioUrl);
+                    currentAudio.playbackRate = 1.15; // Fast and precise delivery speed
+
+                    currentAudio.onplay = () => setAudioUIState('playing');
+                    currentAudio.onended = () => setAudioUIState('idle');
+                    currentAudio.onerror = () => fallbackWebSpeech(text);
+
+                    await currentAudio.play();
+                } else {
+                    throw new Error("No inline audio data");
+                }
+            } catch (err) {
+                if (err.name === 'AbortError') {
+                    setAudioUIState('idle');
+                    return;
+                }
+                console.warn("Gemini TTS unavailable, using SpeechSynthesis fallback:", err);
+                fallbackWebSpeech(text);
+            }
+        }
+
+        /**
+         * High Precision Speech Generator with Instant Response
+         */
+        async function speakText(text) {
+            stopAudio();
+
+            // Direct local synthesis for zero-delay instant response (< 50ms)
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 1.15; // Swift, energetic, and precise pace
+                utterance.pitch = 0.95; // Deep male narrator tone preference
+
+                if (!cachedVoices || cachedVoices.length === 0) {
+                    cachedVoices = window.speechSynthesis.getVoices();
+                }
+
+                // Automatically select standard Chinese or English male voice
+                const preferredVoice = cachedVoices.find(v => (v.lang.includes('zh') || v.lang.includes('cmn')) && v.name.toLowerCase().includes('male'))
+                                    || cachedVoices.find(v => v.lang.includes('zh') || v.lang.includes('cmn'))
+                                    || cachedVoices.find(v => v.lang.includes('en') && v.name.toLowerCase().includes('male'))
+                                    || cachedVoices.find(v => v.lang.includes('en'));
+
+                if (preferredVoice) {
+                    utterance.voice = preferredVoice;
+                }
+
+                utterance.onstart = () => setAudioUIState('playing');
+                utterance.onend = () => setAudioUIState('idle');
+                utterance.onerror = () => setAudioUIState('idle');
+
+                // Trigger speech immediately on click
+                setAudioUIState('playing');
+                window.speechSynthesis.speak(utterance);
+                return;
+            }
+
+            // Fallback for browsers without SpeechSynthesis API
+            fetchAbortController = new AbortController();
+            setAudioUIState('loading');
+            const promptText = `Speak swiftly, clearly, and energetically with a fluent male voice: ${text}`;
+
+            try {
+                const payload = {
+                    contents: [{
+                        parts: [{ text: promptText }]
+                    }],
+                    generationConfig: {
+                        responseModalities: ["AUDIO"],
+                        speechConfig: {
+                            voiceConfig: {
+                                prebuiltVoiceConfig: { voiceName: "Puck" }
+                            }
+                        }
+                    }
+                };
+
+                const apiKey = typeof GEMINI_API_KEY !== 'undefined' ? GEMINI_API_KEY : "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    signal: fetchAbortController.signal
+                });
+
+                if (!response.ok) throw new Error("API response error");
+
+                const result = await response.json();
+                const part = result?.candidates?.[0]?.content?.parts?.[0];
+                const audioData = part?.inlineData?.data;
+                const mimeType = part?.inlineData?.mimeType || "audio/L16;rate=24000";
+
+                if (audioData) {
+                    const sampleRateMatch = mimeType.match(/rate=(\d+)/);
+                    const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 24000;
+
+                    const arrayBuf = base64ToArrayBuffer(audioData);
+                    const pcm16 = new Int16Array(arrayBuf);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    const audioUrl = URL.createObjectURL(wavBlob);
+
+                    currentAudio = new Audio(audioUrl);
+                    currentAudio.playbackRate = 1.15; // Swift delivery
+
+                    currentAudio.onplay = () => setAudioUIState('playing');
+                    currentAudio.onended = () => setAudioUIState('idle');
+                    currentAudio.onerror = () => setAudioUIState('idle');
+
+                    await currentAudio.play();
+                }
+            } catch (err) {
+                setAudioUIState('idle');
+            }
+        }
+
+        /**
+         * Set Audio Indicator State
+         */
+        function setAudioUIState(state) {
+            const statusDot = document.getElementById('audioStatusDot');
+            const pulseRing = document.getElementById('audioPulseRing');
+            const statusText = document.getElementById('narratorStatusText');
+
+            if (state === 'playing') {
+                statusDot.className = "relative inline-flex rounded-full h-3 w-3 bg-emerald-500";
+                pulseRing.classList.remove('hidden');
+                if (statusText) statusText.innerText = "Teacher Lin Speaking...";
+            } else if (state === 'loading') {
+                statusDot.className = "relative inline-flex rounded-full h-3 w-3 bg-amber-500 animate-pulse";
+                pulseRing.classList.add('hidden');
+                if (statusText) statusText.innerText = "Loading Audio...";
+            } else {
+                statusDot.className = "relative inline-flex rounded-full h-3 w-3 bg-sky-500";
+                pulseRing.classList.add('hidden');
+                if (statusText) statusText.innerText = "Teacher Lin Ready";
+            }
+        }
+
+        /**
+         * Step Navigation Controllers
+         */
+        function nextStep() {
+            if (currentStep < 7) {
+                currentStep++;
+                renderCurrentStep();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                renderCurrentStep();
+            }
+        }
+
+        // Initialize App on Window Load
+        window.onload = function() {
+            renderCurrentStep();
+        };
+    </script>
+</body>
+</html>
